@@ -29,10 +29,12 @@ interface_driver = <%= @interface_driver %>
 # interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
 
 <% if @ib_use_dhcp_relay -%>
-interface_dev_name_len = 10
-ddi_proxy_bridge = br-public
-dhclient_path = /sbin/dhclient
-dhcrelay_path = /usr/sbin/dhcrelay
+interface_dev_name_len = 9
+root_helper = sudo neutron-rootwrap /etc/neutron/rootwrap.conf
+dhcp_agent_manager = neutron.agent.dhcp_agent.DhcpAgentWithStateReport
+dhcp_relay_bridge = <%= @dhcp_relay_bridge %>
+dhclient_path = /usr/local/dhcp-4.3.0/sbin/dhclient
+dhcrelay_path = /usr/local/dhcp-4.3.0/sbin/dhcrelay
 <% end -%>
 
 # The agent can use other DHCP drivers.  Dnsmasq is the simplest and requires
@@ -64,6 +66,9 @@ enable_metadata_network = <%= @enable_metadata_network %>
 
 # Location to store DHCP server config files
 # dhcp_confs = $state_path/dhcp
+<% if @ib_use_dhcp_relay -%>
+dhcp_confs = $state_path/dhcp
+<% end -%>
 
 # Domain to use for building the hostnames
 dhcp_domain = <%= @dhcp_domain %>

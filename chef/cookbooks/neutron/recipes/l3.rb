@@ -108,7 +108,6 @@ when "vmware"
   external_network_bridge = ""
 end
 
-
 template "/etc/neutron/l3_agent.ini" do
   source "l3_agent.ini.erb"
   owner "root"
@@ -145,7 +144,7 @@ dns_list = node[:dns][:forwarders].join(",")
 dhcp_driver = "neutron.agent.linux.dhcp.Dnsmasq"
 ib_use_dhcp_relay = false
 if node[:neutron][:use_infoblox] && node[:neutron][:infoblox][:enable_dhcp_relay]
-    dhcp_driver = "neutron.agent.linux.ddi_proxy.DdiProxy"
+    dhcp_driver = "neutron.agent.linux.dhcp_relay.DhcpDnsProxy"
     ib_use_dhcp_relay = true
 end
 
@@ -161,6 +160,7 @@ template "/etc/neutron/dhcp_agent.ini" do
     :resync_interval => 5,
     :dhcp_driver => dhcp_driver,
     :dhcp_domain => node[:neutron][:dhcp_domain],
+    :dhcp_relay_bridge => external_network_bridge,
     :enable_isolated_metadata => "True",
     :enable_metadata_network => "False",
     :nameservers => dns_list,
