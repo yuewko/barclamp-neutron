@@ -33,8 +33,8 @@ interface_dev_name_len = 9
 root_helper = sudo neutron-rootwrap /etc/neutron/rootwrap.conf
 dhcp_agent_manager = neutron.agent.dhcp_agent.DhcpAgentWithStateReport
 dhcp_relay_bridge = <%= @dhcp_relay_bridge %>
-dhclient_path = /usr/local/dhcp-4.3.0/sbin/dhclient
-dhcrelay_path = /usr/local/dhcp-4.3.0/sbin/dhcrelay
+dhclient_path = <%= node[:neutron][:platform][:dhcp_relay_install_root] %>/sbin/dhclient
+dhcrelay_path = <%= node[:neutron][:platform][:dhcp_relay_install_root] %>/sbin/dhcrelay
 <% end -%>
 
 # The agent can use other DHCP drivers.  Dnsmasq is the simplest and requires
