@@ -83,7 +83,7 @@
             "network_view": "default",
             "dns_view": "default",
             "dhcp_members": "\"<next-available-member>\"",
-            "dns_members": "\"<next-available-member\"",
+            "dns_members": "\"<next-available-member>\"",
             "domain_suffix_pattern": "{subnet_name}.cloud-test.com",
             "hostname_pattern": "host-{ip_address}"
           },
